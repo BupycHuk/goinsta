@@ -129,6 +129,13 @@ func isError(code int, body []byte) (err error) {
 	case 400:
 		ierr := Error400{}
 		err = json.Unmarshal(body, &ierr)
+		if err == nil && ierr.ErrorType != "checkpoint_challenge_required" {
+			cerr := ErrorChallengeRequired{}
+			err = json.Unmarshal(body, &cerr)
+			if err == nil {
+				return cerr
+			}
+		}
 		if err == nil && ierr.Payload.Message != "" {
 			return ierr
 		}

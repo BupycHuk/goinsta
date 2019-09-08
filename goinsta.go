@@ -397,6 +397,15 @@ func (inst *Instagram) Login() error {
 		return err
 	}
 
+	err = inst.ContinueLogin()
+	if err != nil {
+		return err
+	}
+
+	return err
+}
+
+func (inst *Instagram) ContinueLogin() error {
 	result, err := json.Marshal(
 		map[string]interface{}{
 			"guid":                inst.uuid,
